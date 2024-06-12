@@ -62,4 +62,19 @@ class Shoe:
             self._price = new_price
         else:
             raise TypeError("Price must be an integer")
+        
+
+    @classmethod
+    def create_shoe_table(cls):
+        sql = """
+            CREATE TABLE IF NOT EXISTS shoes (
+            shoe_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            brand TEXT,
+            size INTEGER,
+            price INTEGER
+            )
+        """
+        CURSOR.execute(sql)
+        CONN.commit()   
 
