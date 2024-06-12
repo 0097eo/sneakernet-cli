@@ -298,3 +298,29 @@ class Order:
 
     def __repr__(self):
         return f"<Order: {self.order_id}, Customer: {self.customer}, Shoe: {self.shoe}, Quantity: {self.quantity}>"
+
+
+    @classmethod
+    def create_order_table(cls):
+        sql = """
+            CREATE TABLE IF NOT EXISTS orders (
+            order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            customer_id INTEGER NOT NULL,
+            shoe_id INTEGER NOT NULL,
+            quantity INTEGER,
+            FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+            FOREIGN KEY (shoe_id) REFERENCES shoes(shoe_id)
+            )
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
+
+    @classmethod
+    def create_order(cls, customer, shoe, quantity):
+        sql = """
+            INSERT INTO orders (customer_id, shoe_id, quantity)
+            VALUES (?,?,?)
+        """
+        CURSOR.execute(sql, (customer.customer_id, shoe.shoe_id, quantity))
+        CONN.commit()
+        return cls(CURSOR.lastrowid, customer, shoe, quantity)
