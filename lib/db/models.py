@@ -163,3 +163,40 @@ class Customer:
 
     def __repr__(self):
         return f"<Customer: {self.customer_id}, {self.first_name}, {self.last_name}, {self.address}>"
+
+    @property
+    def first_name(self):
+        return self._first_name
+    
+    @first_name.setter
+    def first_name(self, new_first_name):
+        if hasattr(self, '_first_name'):
+            raise AttributeError("First name cannot be changed once instantiated")
+        if isinstance(new_first_name, str):
+            self._first_name = new_first_name
+        else:
+            raise TypeError("First name must be a string")
+
+    @property
+    def last_name(self):
+        return self._last_name
+    
+    @last_name.setter
+    def last_name(self, new_last_name):
+        if hasattr(self, '_last_name'):
+            raise AttributeError("Last name cannot be changed once instantiated")
+        if isinstance(new_last_name, str):
+            self._last_name = new_last_name
+        else:
+            raise TypeError("Last name must be a string")
+
+    @property
+    def address(self):
+        return self._address
+    
+    @address.setter
+    def address(self, new_address):
+        if isinstance(new_address, str):
+            self._address = new_address
+        else:
+            raise TypeError("Address must be a string")
