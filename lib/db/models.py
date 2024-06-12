@@ -9,3 +9,7 @@ class Shoe:
         self.brand = brand
         self.size = size
         self.price = price
+
+    def __repr__(self):
+        return f"<Shoe: {self.shoe_id}, {self.name}, {self.brand}, {self.size}, {self.price}>"
+
