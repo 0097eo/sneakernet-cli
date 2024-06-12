@@ -1,3 +1,4 @@
+#models.py
 from db.connection import CONN, CURSOR
 
 class Shoe:

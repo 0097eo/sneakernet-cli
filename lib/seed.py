@@ -1,3 +1,4 @@
+#seed.py
 from db.models import Shoe, Customer, Order
 
 def seed():
