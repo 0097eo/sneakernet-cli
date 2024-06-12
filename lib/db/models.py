@@ -200,3 +200,16 @@ class Customer:
             self._address = new_address
         else:
             raise TypeError("Address must be a string")
+        
+    @classmethod
+    def create_customer_table(cls):
+        sql = """
+            CREATE TABLE IF NOT EXISTS customers (
+            customer_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            first_name TEXT,
+            last_name TEXT,
+            address TEXT
+            )
+        """
+        CURSOR.execute(sql)
+        CONN.commit()
