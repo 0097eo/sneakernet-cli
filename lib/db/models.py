@@ -88,7 +88,12 @@ class Shoe:
         self.shoe_id = CURSOR.lastrowid
         type(self).all[self.shoe_id] = self
 
-
-        
-           
+    def update_price(self):
+        sql = """
+            UPDATE shoes
+            SET price = ?
+            WHERE shoe_id = ?
+        """
+        CURSOR.execute(sql, (self.price, self.shoe_id))
+        CONN.commit()
 
