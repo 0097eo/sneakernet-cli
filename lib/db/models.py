@@ -97,3 +97,19 @@ class Shoe:
         CURSOR.execute(sql, (self.price, self.shoe_id))
         CONN.commit()
 
+    def delete_shoe(self):
+        sql = """
+            DELETE FROM shoes
+            WHERE shoe_id = ?
+        """
+        CURSOR.execute(sql, (self.shoe_id,))
+        CONN.commit()
+        del type(self).all[self.shoe_id]
+        self.shoe_id = None
+
+
+
+
+
+
+
