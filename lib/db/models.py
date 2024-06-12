@@ -223,3 +223,24 @@ class Customer:
         CONN.commit()
         self.customer_id = CURSOR.lastrowid
         type(self).all[self.customer_id] = self
+
+    def update_address(self):
+        sql = """
+            UPDATE customers
+            SET address = ?
+            WHERE customer_id =?
+        """
+        CURSOR.execute(sql, (self.address, self.customer_id))
+        CONN.commit()
+
+    def delete_customer(self):
+        sql = """
+            DELETE FROM customers
+            WHERE customer_id = ?
+        """
+        CURSOR.execute(sql, (self.customer_id,))
+        CONN.commit()
+        del type(self).all[self.customer_id]
+        self.customer_id = None
+
+    
