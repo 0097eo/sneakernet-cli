@@ -213,3 +213,13 @@ class Customer:
         """
         CURSOR.execute(sql)
         CONN.commit()
+
+    def save_customer(self):
+        sql = """
+            INSERT INTO customers (first_name, last_name, address)
+            VALUES (?,?,?)
+        """
+        CURSOR.execute(sql, (self.first_name, self.last_name, self.address))
+        CONN.commit()
+        self.customer_id = CURSOR.lastrowid
+        type(self).all[self.customer_id] = self
