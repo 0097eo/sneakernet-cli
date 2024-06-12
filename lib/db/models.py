@@ -106,10 +106,27 @@ class Shoe:
         CONN.commit()
         del type(self).all[self.shoe_id]
         self.shoe_id = None
+        
+    @classmethod
+    def create(cls, name, brand, size, price):
+        shoe = cls(None, name, brand, size, price)
+        shoe.save_shoe()
+        return shoe
+    
+    @classmethod
+    def instance_of_shoe(cls, row):
+        shoe_id, name, brand, size, price = row
+        shoe = cls.all.get(shoe_id)
+        if not shoe:
+            shoe = cls(shoe_id, name, brand, size, price)
+            cls.all[shoe_id] = shoe
+        return shoe
 
-
-
-
-
-
-
+    @classmethod
+    def get_all_shoes(cls):
+        sql = """
+            SELECT * FROM shoes
+        """
+        CURSOR.execute(sql)
+        rows = CURSOR.fetchall()
+        return [cls.instance_of_shoe(row) for row in rows]
