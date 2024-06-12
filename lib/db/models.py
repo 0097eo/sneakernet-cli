@@ -150,3 +150,16 @@ class Shoe:
         CURSOR.execute(sql, (name,))
         row = CURSOR.fetchone()
         return cls.instance_of_shoe(row) if row else None
+    
+
+class Customer:
+    all = {}
+
+    def __init__(self, customer_id, first_name, last_name, address):
+        self.customer_id = customer_id
+        self.first_name = first_name
+        self.last_name = last_name
+        self.address = address
+
+    def __repr__(self):
+        return f"<Customer: {self.customer_id}, {self.first_name}, {self.last_name}, {self.address}>"
