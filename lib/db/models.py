@@ -130,3 +130,23 @@ class Shoe:
         CURSOR.execute(sql)
         rows = CURSOR.fetchall()
         return [cls.instance_of_shoe(row) for row in rows]
+    
+    @classmethod
+    def get_shoe_by_id(cls, shoe_id):
+        sql = """
+            SELECT * FROM shoes
+            WHERE shoe_id = ?
+        """
+        CURSOR.execute(sql, (shoe_id,))
+        row = CURSOR.fetchone()
+        return cls.instance_of_shoe(row) if row else None
+    
+    @classmethod
+    def get_shoe_by_name(cls, name):
+        sql = """
+            SELECT * FROM shoes
+            WHERE name =?
+        """
+        CURSOR.execute(sql, (name,))
+        row = CURSOR.fetchone()
+        return cls.instance_of_shoe(row) if row else None
