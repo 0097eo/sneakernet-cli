@@ -76,5 +76,19 @@ class Shoe:
             )
         """
         CURSOR.execute(sql)
-        CONN.commit()   
+        CONN.commit()
+
+    def save_shoe(self):
+        sql = """
+            INSERT INTO shoes (name, brand, size, price)
+            VALUES (?,?,?,?)
+        """
+        CURSOR.execute(sql, (self.name, self.brand, self.size, self.price))
+        CONN.commit()
+        self.shoe_id = CURSOR.lastrowid
+        type(self).all[self.shoe_id] = self
+
+
+        
+           
 
