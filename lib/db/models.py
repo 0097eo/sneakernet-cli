@@ -286,3 +286,15 @@ class Customer:
         CURSOR.execute(sql, (name,))
         row = CURSOR.fetchone()
         return cls.instance_of_customer(row) if row else None
+    
+
+class Order:
+    all = {}
+    def __init__(self, order_id, customer, shoe, quantity):
+        self.order_id = order_id
+        self.customer = customer
+        self.shoe = shoe
+        self.quantity = quantity
+
+    def __repr__(self):
+        return f"<Order: {self.order_id}, Customer: {self.customer}, Shoe: {self.shoe}, Quantity: {self.quantity}>"
