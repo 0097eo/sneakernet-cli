@@ -243,4 +243,46 @@ class Customer:
         del type(self).all[self.customer_id]
         self.customer_id = None
 
+    @classmethod
+    def create(cls, first_name, last_name, address):
+        customer = cls(None, first_name, last_name, address)
+        customer.save_customer()
+        return customer
+
+    @classmethod
+    def instance_of_customer(cls, row):
+        customer_id, first_name, last_name, address = row
+        customer = cls.all.get(customer_id)
+        if not customer:
+            customer = cls(customer_id, first_name, last_name, address)
+            cls.all[customer_id] = customer
+        return customer
+
+    @classmethod
+    def get_all_customers(cls):
+        sql = """
+            SELECT * FROM customers
+        """
+        CURSOR.execute(sql)
+        rows = CURSOR.fetchall()
+        return [cls.instance_of_customer(row) for row in rows]
+
+    @classmethod
+    def get_customer_by_id(cls, customer_id):
+        sql = """
+            SELECT * FROM customers
+            WHERE customer_id =?
+        """
+        CURSOR.execute(sql, (customer_id,))
+        row = CURSOR.fetchone()
+        return cls.instance_of_customer(row) if row else None
     
+    @classmethod
+    def get_customer_by_name(cls, name):
+        sql = """
+            SELECT * FROM customers
+            WHERE first_name =?
+        """
+        CURSOR.execute(sql, (name,))
+        row = CURSOR.fetchone()
+        return cls.instance_of_customer(row) if row else None
