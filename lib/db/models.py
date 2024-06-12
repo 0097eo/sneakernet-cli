@@ -324,3 +324,63 @@ class Order:
         CURSOR.execute(sql, (customer.customer_id, shoe.shoe_id, quantity))
         CONN.commit()
         return cls(CURSOR.lastrowid, customer, shoe, quantity)
+    
+    @classmethod
+    def get_all_orders(cls):
+        sql = """
+            SELECT * FROM orders
+        """
+        CURSOR.execute(sql)
+        rows = CURSOR.fetchall()
+        return [cls(*row) for row in rows]
+
+    @classmethod
+    def get_order_by_id(cls, order_id):
+        sql = """
+            SELECT * FROM orders
+            WHERE order_id = ?
+        """
+        CURSOR.execute(sql, (order_id,))
+        row = CURSOR.fetchone()
+        if row:
+            return cls(*row)
+        return None
+
+    @classmethod
+    def get_orders_by_customer_id(cls, customer_id):
+        sql = """
+            SELECT * FROM orders
+            WHERE customer_id = ?
+        """
+        CURSOR.execute(sql, (customer_id,))
+        rows = CURSOR.fetchall()
+        return [cls(*row) for row in rows]
+
+    @classmethod
+    def get_orders_by_shoe_id(cls, shoe_id):
+        sql = """
+            SELECT * FROM orders
+            WHERE shoe_id = ?
+        """
+        CURSOR.execute(sql, (shoe_id,))
+        rows = CURSOR.fetchall()
+        return [cls(*row) for row in rows]
+    
+    def save(self):
+        sql = """
+            UPDATE ORDERS
+            SET quantity = ?
+            WHERE order_id = ?
+        """
+        CURSOR.execute(sql, (self.quantity, self.order_id))
+        CONN.commit()
+
+    def delete(self):
+        sql = """
+            DELETE FROM orders
+            WHERE order_id = ?
+        """
+        CURSOR.execute(sql, (self.order_id,))
+        CONN.commit()
+        del type(self).all[self.order_id]
+        self.order_id = None
